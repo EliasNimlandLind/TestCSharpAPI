@@ -7,7 +7,7 @@ Globals = Obj(new
     isSpa = true,
     port = 3001,
     serverName = "Ironboy's Minimal API Server",
-    frontendPath = Path.Combine("..", "Frontend"),
+    frontendPath = FilePath("..", "Frontend"),
     sessionLifeTimeHours = 2
 });
 
