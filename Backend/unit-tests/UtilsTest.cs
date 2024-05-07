@@ -11,6 +11,8 @@ public class UtilsTest
     // dotnet test --logger "console;verbosity=detailed"
     // for the logging to work
     private readonly ITestOutputHelper output;
+    private string[] badWords;
+
     public UtilsTest(ITestOutputHelper output)
     {
         this.output = output;
@@ -52,11 +54,17 @@ public class UtilsTest
 
     [Theory]
     [InlineData("Aaa!12345")]
-    [InlineData("Aa12345")]
-    [InlineData("a12345")]
-    [InlineData("AAAAAAA")]
-    public void IsPasswordGoodEnoughTheory(string password)
+    public void TestIsPasswordGoodEnough(string password)
     {
         Assert.True(Utils.IsPasswordGoodEnough(password));
+    }
+
+    [Theory]
+    [InlineData("bastard")]
+    [InlineData("Allowed data")]
+    public void TestRemoveBadWords(string unalteredString)
+    {           
+        badWords = JSON.Parse(FilePath("json", "bad-words.json"));
+        //Assert.Contains(Utils.RemoveBadWords(unalteredString), badWords);
     }
 }

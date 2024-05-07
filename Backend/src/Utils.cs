@@ -34,12 +34,17 @@ public static class Utils
     public static bool IsPasswordGoodEnough(string password)
     {
         // Regex to ensure the length of the input is at least eight characters long, 
-        // contains at least capital, none-capital letter and another character
+        // contains at least capital, none-capital letter and a special character.
         Regex validPasswordPattern = new Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$");
         if (validPasswordPattern.IsMatch(password))
         {
             return true;
         }
         return false;
+    }
+
+    public static string RemoveBadWords(string unalteredString)
+    {
+        return string.Empty;
     }
 }
