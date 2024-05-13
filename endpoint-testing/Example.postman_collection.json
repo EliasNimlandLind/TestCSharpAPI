@@ -21,10 +21,10 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3001/api/login",
+					"raw": "http://127.0.0.1:3001/api/login",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"127.0.0.1"
 					],
 					"port": "3001",
 					"path": [
@@ -53,6 +53,10 @@
 							"    {",
 							"      \"name\": \"Grönsaker\",",
 							"      \"description\": \"Färska frukter.\"",
+							"    }",
+							"    {",
+							"      \"name\": \"Rengöringsprodukter\",",
+							"      \"description\": \"Allt du behöver för att hålla hemmet rent.\"",
 							"    }",
 							"  ],",
 							"  \"products\": [],",
@@ -83,10 +87,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3001",
+					"raw": "http://127.0.0.1:3001",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"127.0.0.1"
 					],
 					"port": "3001"
 				}
@@ -172,15 +176,109 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3001/api/categories",
+					"raw": "http://127.0.0.1:3001/api/categories",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"127.0.0.1"
 					],
 					"port": "3001",
 					"path": [
 						"api",
 						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+		"name": "Create comments",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Get the test data",
+							"let testData = pm.collectionVariables.get(\"testData\");",
+							"// Get the current comment",
+							"let comment = testData.comments[testData.counter];",
+							"",
+							"// Read the response",
+							"let response = pm.response;",
+							"// Read the response data",
+							"let responseData = pm.response.json();",
+							"",
+							"// Test that we get a 200 code (ok request) back",
+							"pm.test(\"We should get an ok (code 200) back\",()=> {",
+							"    pm.expect(response.code).to.equal(200);",
+							"});",
+							"",
+							"// Test that we gat an insert id back",
+							"// also add the id in our test data (for future tests)",
+							"pm.test(\"We should get an insertId back\", () => {",
+							"    pm.expect(responseData.insertId).to.be.a('number');",
+							"    // Add the id",
+							"    comment.id = responseData.insertId;",
+							"    // Log",
+							"    console.log(\"The comment has been created\", comment);",
+							"});",
+							"",
+							"// Update the counter and save the updated test data",
+							"// (also including the id we set in the second test)",
+							"testData.counter++;",
+							"pm.collectionVariables.set(\"testData\",testData);",
+							"",
+							"// If there are more comments - then \"loop\"",
+							"// through them using setNextRequest",
+							"if(testData.comments[testData.counter]){",
+							"    pm.execution.setNextRequest(\"Create comments\");",
+							"}",
+							"// Otherwise console.log \"All done\"",
+							"else {",
+							"    console.log(\"All comments have been created.\");",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let testData = pm.collectionVariables.get(\"testData\");",
+							"let comment = testData.comments[testData.counter];",
+							"",
+							"pm.variables.set(\"comment\", comment.comment);",
+							"pm.variables.set(\"userId\", comment.userId);",
+							"pm.variables.set(\"productId\", comment.productId);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"comment\": \"{{comment}}\",\n    \"userId\": \"{{userId}}\"\n,\n    \"productId\": \"{{productId}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3001/api/comments",
+					"protocol": "http",
+					"host": [
+						"127.0.0.1"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"comments"
 					]
 				}
 			},
