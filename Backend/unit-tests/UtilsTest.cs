@@ -65,6 +65,6 @@ public class UtilsTest
     public void TestRemoveBadWords(string unalteredString)
     {           
         badWords = JSON.Parse(FilePath("json", "bad-words.json"));
-        //Assert.Contains(Utils.RemoveBadWords(unalteredString), badWords);
+        Assert.Contains(Utils.RemoveBadWords(unalteredString), badWords);
     }
 }
