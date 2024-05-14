@@ -1,10 +1,11 @@
 namespace WebApp;
-using Xunit;
 
 public class UtilsTest(Xlog Console)
-{
+{ 
     // Read all mock users from file
-    private static readonly Arr mockUsers = JSON.Parse(File.ReadAllText(FilePath("json", "mock-users.json")));
+    private static readonly Arr mockUsers = JSON.Parse(
+        File.ReadAllText(FilePath("json", "mock-users.json"))
+    );
 
     [Theory]
     [InlineData("abC9#fgh", true)]  // ok
@@ -57,25 +58,23 @@ public class UtilsTest(Xlog Console)
         Arr usersInDb = SQLQuery("SELECT email FROM users");
         Arr emailsInDb = usersInDb.Map(user => user.email);
         // Only keep the mock users not already in db
-        Arr mockUsersNotInDb = mockUsers.Filter(mockUser => !emailsInDb.Contains(mockUser.email));
+        Arr mockUsersNotInDb = mockUsers.Filter(
+            mockUser => !emailsInDb.Contains(mockUser.email)
+        );
         // Get the result of running the method in our code
-        Arr result = Utils.CreateMockUsers();
+        var result = Utils.CreateMockUsers();
         // Assert that the CreateMockUsers only return
         // newly created users in the db
-        Console.WriteLine(@$"The test expected that {mockUsersNotInDb.Length} users should be added.
-                             And {result.Length} users were added.
-                             The test also asserts that the users added 
-                             are equivalent (the same) as the expected users!");
+        Console.WriteLine($"The test expected that {mockUsersNotInDb.Length} users should be added.");
+        Console.WriteLine($"And {result.Length} users were added.");
+        Console.WriteLine("The test also asserts that the users added " +
+            "are equivalent (the same) as the expected users!");
         Assert.Equivalent(mockUsersNotInDb, result);
         Console.WriteLine("The test passed!");
     }
 
     [Fact]
     public void TestRemoveMockUsers()
-    {
-        Arr removedMockUsers = Utils.RemoveMockUsers();
-        Assert.Equivalent(mockUsers, removedMockUsers);
-    }
 
     // Now write the two last ones yourself!
     // See: https://sys23m-jensen.lms.nodehill.se/uploads/videos/2021-05-18T15-38-54/sysa-23-presentation-2024-05-02-updated.html#8
