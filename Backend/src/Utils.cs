@@ -66,7 +66,20 @@ public static class Utils
 
     public static Arr RemoveMockUsers()
     {
-        return new Arr();
+        Arr usersToRemove = mockUsers;
+
+        foreach (var userToRemove in usersToRemove)
+        {
+            SQLQueryOne($"DELETE FROM users WHERE id = {userToRemove.id}");
+            userToRemove.Delete("password");
+        }
+
+        return usersToRemove;
+    }
+
+    public static Obj CountDomainsFromUserEmails()
+    {
+        return new Obj();
     }
 
     // Now write the two last ones yourself!
