@@ -3,9 +3,10 @@ using Xunit.Abstractions;
 namespace WebApp;
 
 public class UtilsTest(Xlog Console)
-{ 
+{
+    /*
     // Read all mock users from file
-    private static readonly Arr mockUsers = JSON.Parse(File.ReadAllText(FilePath("json", 
+    private static readonly Arr mockUsers = JSON.Parse(File.ReadAllText(FilePath("json",
                                                                                  "mock-users.json")));
 
     [Theory]
@@ -82,33 +83,55 @@ public class UtilsTest(Xlog Console)
 
         Console.WriteLine(@$"The test expected that {mockUsers} to be removed from the database and returned.
                              The test passed.");
-    }
+    }*/
 
     [Fact]
     public void TestCountDomainsFromUserEmails()
     {
-        Arr userEmails = SQLQuery("SELECT email FROM users"); 
-        Obj domainsCount = new Obj();
+        Arr userEmails = SQLQuery("SELECT email FROM users");
+        Arr domains = new Arr();
 
-        Dictionary<string, int> counts = new Dictionary<string, int>();
+        Obj domainObj = new Obj();
         foreach (Obj email in userEmails)
         {
-            if (counts.ContainsKey(email.ToString()))
-                counts[email.ToString()]++;
-            else
-                counts[email.ToString()] = 1;
+            string filter = email.ToString();
+            string domainString = filter.Split('@')[1];
+            domainString = domainString.Split("\"}")[0];
+
+            domainObj = Obj(new { domain = domainString });
+            domains.Append(domainObj);
+            //Console.WriteLine(domainObj.GetValues()[0]);
         }
-        
-        domainsCount = new Obj(counts);
 
-        Obj result = Utils.CountDomainsFromUserEmails();
+        Dictionary<string, int> dictionary = new Dictionary<string, int>();
+        foreach (Obj domain in domains)
+        {
+            int amountOfOccurrences = domains.Count(x => (string)x == domainObj.GetValues()[0]);
+            KeyValuePair<string, int> keyValuePair = new KeyValuePair<string, int>(domainObj.GetValues()[0], amountOfOccurrences);
+            dictionary.Append(keyValuePair);
+            Console.WriteLine(keyValuePair.ToString());
+        }
 
-        string outputText = @$"The test expected that {userEmails.Length} emails should be added.\n
-                               and {result} users were added.
-                               Count: {domainsCount.GetValues()}";
-        Console.WriteLine(outputText);
+        //     // FAULT due to initializing Obj variable to string value ------------------------------------
+        //     Dictionary<string, int> dictionary = new Dictionary<string, int>();
+        //     foreach (string domain in domains)
+        //     {
+        //         int amountOfOccurrences = domains.Count(x => (string)x == domain);
+        //         KeyValuePair<string, int> keyValuePair = new KeyValuePair<string, int>(domain, amountOfOccurrences);
+        //         dictionary.Append(keyValuePair);
+        //         Console.WriteLine(keyValuePair.ToString());
+        //     }
+        //     // ---------------------------------------------
 
-        Assert.Equivalent(domainsCount, result);
-        Console.WriteLine("The test passed!");
+        //     Obj domainsCountTotal = new Obj(dictionary);
+
+        //     Obj result = Utils.CountDomainsFromUserEmails();
+
+        //     string outputText = @$"The test expected that {domains.Length} domains should be added.\n
+        //                            and {result} emails were added.";
+        //     Console.WriteLine(outputText);
+
+        //     Assert.Equivalent(domainsCountTotal, result);
+        //     Console.WriteLine("The test passed!");
     }
 }

@@ -2,7 +2,7 @@ namespace WebApp;
 public static class Utils
 {
     // Read all mock users from file
-    private static readonly Arr mockUsers = JSON.Parse(File.ReadAllText(FilePath("json", 
+    private static readonly Arr mockUsers = JSON.Parse(File.ReadAllText(FilePath("json",
                                                                                  "mock-users.json")));
 
     // Read all bad words from file and sort from longest to shortest
@@ -15,9 +15,9 @@ public static class Utils
     public static bool IsPasswordGoodEnough(string password)
     {
         return password.Length >= 8 &&
-               password.Any(Char.IsAsciiDigit) && 
-               password.Any(Char.IsAsciiLetterLower) && 
-               password.Any(Char.IsAsciiLetterUpper) && 
+               password.Any(Char.IsAsciiDigit) &&
+               password.Any(Char.IsAsciiLetterLower) &&
+               password.Any(Char.IsAsciiLetterUpper) &&
                password.Any(x => !Char.IsAsciiLetterOrDigit(x));
     }
 
@@ -27,7 +27,7 @@ public static class Utils
         string pattern = @"^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$";
         return Regex.IsMatch(password, pattern);
     }
-    
+
     public static string RemoveBadWords(string comment, string replaceWith = "---")
     {
         comment = $" {comment}";
@@ -35,9 +35,9 @@ public static class Utils
         badWords.ForEach(badWord =>
         {
             string pattern = @$" {badWord}([\.\!\?\:\; ])";
-            comment = Regex.Replace(comment, 
-                                    pattern, 
-                                    replaceWith, 
+            comment = Regex.Replace(comment,
+                                    pattern,
+                                    replaceWith,
                                     RegexOptions.IgnoreCase);
         });
         return comment[1..];
@@ -77,10 +77,10 @@ public static class Utils
     }
 
     public static Obj CountDomainsFromUserEmails()
-    {   
+    {
         Obj domainsCount = new Obj();
 
-        return domainsCount;    
+        return domainsCount;
     }
 
     // Now write the two last ones yourself!
