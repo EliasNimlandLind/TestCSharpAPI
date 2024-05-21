@@ -49,10 +49,10 @@ public static class Utils
         string read = File.ReadAllText(FilePath("json", "mock-users.json"));
         Arr mockUsers = JSON.Parse(read);
         Arr successFullyWrittenUsers = Arr();
-        foreach (dynamic user in mockUsers)
+        foreach (var user in mockUsers)
         {
             //user.password = "12345678";
-            dynamic result = SQLQueryOne(@"INSERT INTO users(firstName, lastName, email, password)
+            var result = SQLQueryOne(@"INSERT INTO users(firstName, lastName, email, password)
                                            VALUES($firstName, $lastName, $email, $password)", user);
             // If we get an error from the DB then we haven't added
             // the mock users, if not we have so add to the successful list
@@ -68,7 +68,7 @@ public static class Utils
 
     public static Arr RemoveMockUsers()
     {
-        foreach (dynamic userToRemove in mockUsers)
+        foreach (var userToRemove in mockUsers)
         {
             SQLQueryOne($"DELETE FROM users WHERE id = {userToRemove.Id}");
             userToRemove.Delete("password");
@@ -78,11 +78,29 @@ public static class Utils
 
     public static Obj CountDomainsFromUserEmails()
     {
-        Obj domainsCount = new Obj();
+        Arr userEmails = SQLQuery("SELECT email FROM users");
+        List<string> domains = new List<string>();
+        dynamic domainObj = Obj();
+        foreach (dynamic email in userEmails)
+        {
+            string filter = email.ToString();
+            string domainString = filter.Split('@')[1];
+            domainString = domainString.Split("\"}")[0];
+            domains.Add(domainString);
+        }
 
-        return domainsCount;
+        var countingQuery = domains.
+                            GroupBy(filter => filter).
+                            Select(selected => new { Value = selected.Key, Count = selected.Count() }).
+                            OrderByDescending(filter => filter.Count);
+
+        domainObj.totalCountOfUniqueDomains = 0;
+        foreach (var pair in countingQuery)
+        {
+            domainObj.Merge(new { pair.Value, countingQuery });
+            domainObj.totalCountOfUniqueDomains++;
+        }
+
+        return domainObj;
     }
-
-    // Now write the two last ones yourself!
-    // See: https://sys23m-jensen.lms.nodehill.se/uploads/videos/2021-05-18T15-38-54/sysa-23-presentation-2024-05-02-updated.html#8
 }

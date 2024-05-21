@@ -51,6 +51,7 @@ public class UtilsTest(Xlog Console)
         Assert.Equal(expected, Utils.RemoveBadWords(original, replaceWith));
     }
 
+
     [Fact]
     public void TestCreateMockUsers()
     {
@@ -66,72 +67,58 @@ public class UtilsTest(Xlog Console)
         Arr result = Utils.CreateMockUsers();
         // Assert that the CreateMockUsers only return
         // newly created users in the db
-        string outputText = @$"The test expected that {mockUsersNotInDb.Length} users should be added.\n
-                               And {result.Length} users were added.\n
-                               The test also asserts that the users added \n
+        string outputText = @$"The test expected that {mockUsersNotInDb.Length} users should be added.
+                               And {result.Length} users were added.
+                               The test also asserts that the users added 
                                are equivalent (the same) to the expected users!";
         Console.WriteLine(outputText);
         Assert.Equivalent(mockUsersNotInDb, result);
         Console.WriteLine("The test passed!");
     }
+    /*
+        [Fact]
+        public void TestRemoveMockUsers()
+        {
+            Arr result = Utils.RemoveMockUsers();
+            Assert.Equivalent(mockUsers, result);
 
-    [Fact]
-    public void TestRemoveMockUsers()
-    {
-        Arr result = Utils.RemoveMockUsers();
-        Assert.Equivalent(mockUsers, result);
-
-        Console.WriteLine(@$"The test expected that {mockUsers} to be removed from the database and returned.
-                             The test passed.");
-    }*/
+            Console.WriteLine(@$"The test expected that {mockUsers} to be removed from the database and returned.
+                                 The test passed.");
+        }*/
 
     [Fact]
     public void TestCountDomainsFromUserEmails()
     {
         Arr userEmails = SQLQuery("SELECT email FROM users");
-        Arr domains = new Arr();
-
-        Obj domainObj = new Obj();
-        foreach (Obj email in userEmails)
+        List<string> domains = new List<string>();
+        var domainObj = Obj();
+        foreach (var email in userEmails)
         {
             string filter = email.ToString();
             string domainString = filter.Split('@')[1];
             domainString = domainString.Split("\"}")[0];
-
-            domainObj = Obj(new { domain = domainString });
-            domains.Append(domainObj);
-            //Console.WriteLine(domainObj.GetValues()[0]);
+            domains.Add(domainString);
         }
 
-        Dictionary<string, int> dictionary = new Dictionary<string, int>();
-        foreach (Obj domain in domains)
+        var countingQuery = domains.
+                            GroupBy(filter => filter).
+                            Select(selected => new { Value = selected.Key, Count = selected.Count() }).
+                            OrderByDescending(filter => filter.Count);
+
+        domainObj.totalCountOfUniqueDomains = 0;
+        foreach (var pair in countingQuery)
         {
-            int amountOfOccurrences = domains.Count(x => (string)x == domainObj.GetValues()[0]);
-            KeyValuePair<string, int> keyValuePair = new KeyValuePair<string, int>(domainObj.GetValues()[0], amountOfOccurrences);
-            dictionary.Append(keyValuePair);
-            Console.WriteLine(keyValuePair.ToString());
+            domainObj.Merge(new { pair.Value, countingQuery });
+            domainObj.totalCountOfUniqueDomains++;
         }
 
-        //     // FAULT due to initializing Obj variable to string value ------------------------------------
-        //     Dictionary<string, int> dictionary = new Dictionary<string, int>();
-        //     foreach (string domain in domains)
-        //     {
-        //         int amountOfOccurrences = domains.Count(x => (string)x == domain);
-        //         KeyValuePair<string, int> keyValuePair = new KeyValuePair<string, int>(domain, amountOfOccurrences);
-        //         dictionary.Append(keyValuePair);
-        //         Console.WriteLine(keyValuePair.ToString());
-        //     }
-        //     // ---------------------------------------------
+        Log(domainObj);
+        var resultObj = Utils.CountDomainsFromUserEmails();
 
-        //     Obj domainsCountTotal = new Obj(dictionary);
-
-        //     Obj result = Utils.CountDomainsFromUserEmails();
-
-        //     string outputText = @$"The test expected that {domains.Length} domains should be added.\n
-        //                            and {result} emails were added.";
-        //     Console.WriteLine(outputText);
-
-        //     Assert.Equivalent(domainsCountTotal, result);
-        //     Console.WriteLine("The test passed!");
+        string outputText = @$"The test expected that {domainObj.totalCountOfUniqueDomains} domains should be added.
+        and {resultObj["totalCountOfUniqueDomains"]} emails were added.";
+        Console.WriteLine(outputText);
+        Assert.Equivalent(domainObj, resultObj);
+        Console.WriteLine("The test passed!");
     }
 }
