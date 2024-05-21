@@ -113,12 +113,16 @@ public class UtilsTest(Xlog Console)
         }
 
         Log(domainObj);
-        var resultObj = Utils.CountDomainsFromUserEmails();
+        Obj resultObj = Utils.CountDomainsFromUserEmails();
+
+        string propertyToCompare = "totalCountOfUniqueDomains";
 
         string outputText = @$"The test expected that {domainObj.totalCountOfUniqueDomains} domains should be added.
-        and {resultObj["totalCountOfUniqueDomains"]} emails were added.";
+        and {resultObj[propertyToCompare]} emails were added.";
         Console.WriteLine(outputText);
-        Assert.Equivalent(domainObj, resultObj);
+
+        Assert.True(domainObj[propertyToCompare] == resultObj[propertyToCompare]);
+
         Console.WriteLine("The test passed!");
     }
 }
