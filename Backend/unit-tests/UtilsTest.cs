@@ -4,7 +4,6 @@ namespace WebApp;
 
 public class UtilsTest(Xlog Console)
 {
-    /*
     // Read all mock users from file
     private static readonly Arr mockUsers = JSON.Parse(File.ReadAllText(FilePath("json",
                                                                                  "mock-users.json")));
@@ -75,16 +74,16 @@ public class UtilsTest(Xlog Console)
         Assert.Equivalent(mockUsersNotInDb, result);
         Console.WriteLine("The test passed!");
     }
-    /*
-        [Fact]
-        public void TestRemoveMockUsers()
-        {
-            Arr result = Utils.RemoveMockUsers();
-            Assert.Equivalent(mockUsers, result);
 
-            Console.WriteLine(@$"The test expected that {mockUsers} to be removed from the database and returned.
-                                 The test passed.");
-        }*/
+    [Fact]
+    public void TestRemoveMockUsers()
+    {
+        Arr result = Utils.RemoveMockUsers();
+        Assert.Equivalent(mockUsers, result);
+
+        Console.WriteLine(@$"The test expected that {mockUsers} to be removed from the database and returned.
+                            The test passed.");
+    }
 
     [Fact]
     public void TestCountDomainsFromUserEmails()
@@ -104,7 +103,6 @@ public class UtilsTest(Xlog Console)
                             GroupBy(filter => filter).
                             Select(selected => new { Value = selected.Key, Count = selected.Count() }).
                             OrderByDescending(filter => filter.Count);
-
         domainObj.totalCountOfUniqueDomains = 0;
         foreach (var pair in countingQuery)
         {
