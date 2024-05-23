@@ -1,0 +1,188 @@
+{
+  "userCounter": 0,
+  "counter": 0,
+  "loggedInUser" :  
+    {
+      "id" : "id",
+      "created" : "created",
+      "email" : "email",
+      "firstName" : "firstName",
+      "lastName" : "lastName",
+      "role" : "role"
+    },
+  "users": [
+    {
+      "email": "john.doe@example.com",
+      "firstName": "John",
+      "lastName": "Doe",
+      "role": "user",
+      "password": "Password123!"
+    }
+  ],
+  "categories": [
+    {
+      "name": "Bouldering",
+      "description": "Must haves for bouldering."
+    },
+    {
+      "name": "Climbing Shoes",
+      "description": "Footwear designed specifically for climbing, providing grip and support on various surfaces."
+    },
+    {
+      "name": "Climbing Harnesses",
+      "description": "Safety equipment worn by climbers to secure themselves to ropes and prevent falls."
+    },
+    {
+      "name": "Climbing Ropes",
+      "description": "Essential equipment used in belaying and securing climbers during ascent and descent."
+    }
+  ],
+  "products": [
+    {
+      "name": "Crash Pad",
+      "description": "Large foam pad used to protect climbers from falls while bouldering.",
+      "price": 200,
+      "categoryId": "Bouldering"
+    },
+    {
+      "name": "La Sportiva Solution Climbing Shoes",
+      "description": "High-performance climbing shoes designed for precision and grip.",
+      "price": 180,
+      "categoryId": "Climbing Shoes"
+    },
+    {
+      "name": "Petzl Corax Climbing Harness",
+      "description": "Versatile climbing harness with adjustable waist and leg loops for comfort.",
+      "price": 60,
+      "categoryId": "Climbing Harnesses"
+    },
+    {
+      "name": "Black Diamond 9.9mm Climbing Rope",
+      "description": "Durable and versatile climbing rope suitable for various climbing activities.",
+      "price": 150,
+      "categoryId": "Climbing Ropes"
+    },
+    {
+      "name": "Organic Climbing Big Pad",
+      "description": "High-quality bouldering crash pad with superior foam cushioning.",
+      "price": 275,
+      "categoryId": "Bouldering"
+    },
+    {
+      "name": "Scarpa Instinct VS Climbing Shoes",
+      "description": "Aggressive and sensitive climbing shoes designed for advanced climbers.",
+      "price": 170,
+      "categoryId": "Climbing Shoes"
+    },
+    {
+      "name": "Black Diamond Momentum Climbing Harness",
+      "description": "Comfortable all-around climbing harness suitable for beginners.",
+      "price": 55,
+      "categoryId": "Climbing Harnesses"
+    },
+    {
+      "name": "Sterling Evolution Velocity Climbing Rope",
+      "description": "Dynamic climbing rope with excellent handling and durability.",
+      "price": 180,
+      "categoryId": "Climbing Ropes"
+    },
+    {
+      "name": "Metolius Session Crash Pad",
+      "description": "Compact and portable bouldering crash pad with foam padding.",
+      "price": 150,
+      "categoryId": "Bouldering"
+    },
+    {
+      "name": "Five Ten Anasazi Pro Climbing Shoes",
+      "description": "High-performance climbing shoes with precision fit and sticky rubber.",
+      "price": 160,
+      "categoryId": "Climbing Shoes"
+    },
+    {
+      "name": "Petzl Sama Climbing Harness",
+      "description": "Comfortable and lightweight climbing harness suitable for sport and gym climbing.",
+      "price": 70,
+      "categoryId": "Climbing Harnesses"
+    },
+    {
+      "name": "Edelrid Boa Eco Climbing Rope",
+      "description": "Environmentally friendly climbing rope made from recycled materials.",
+      "price": 200,
+      "categoryId": "Climbing Ropes"
+    }
+  ],
+  "comments": [
+    {
+      "comment": "This crash pad saved me from a nasty fall last weekend!",
+      "productId": "Crash Pad",
+      "userId": "john.doe@example.com",
+      "commentCreated": false
+    },
+    {
+      "comment": "These climbing shoes are fantastic for edging!",
+      "productId": "La Sportiva Solution Climbing Shoes",
+      "userId": "john.doe@example.com",
+      "commentCreated": false
+    },
+    {
+      "comment": "I love the adjustability of this harness. Fits like a glove!",
+      "productId": "Petzl Corax Climbing Harness",
+      "userId": "john.doe@example.com",
+      "commentCreated": false
+    },
+    {
+      "comment": "Solid rope for both indoor and outdoor climbing.",
+      "productId": "Black Diamond 9.9mm Climbing Rope",
+      "userId": "john.doe@example.com",
+      "commentCreated": false
+    },
+    {
+      "comment": "Super cushy pad, great for long sessions.",
+      "productId": "Organic Climbing Big Pad",
+      "userId": "thomas@nodehill.com",
+      "commentCreated": false
+    },
+    {
+      "comment": "These shoes stick like glue!",
+      "productId": "Scarpa Instinct VS Climbing Shoes",
+      "userId": "thomas@nodehill.com",
+      "commentCreated": false
+    },
+    {
+      "comment": "Perfect harness for beginners. Comfortable and easy to adjust.",
+      "productId": "Black Diamond Momentum Climbing Harness",
+      "userId": "visit@visitor.com",
+      "commentCreated": false
+    },
+    {
+      "comment": "Smooth handling and durable. Highly recommended!",
+      "productId": "Sterling Evolution Velocity Climbing Rope",
+      "userId": "visit@visitor.com",
+      "commentCreated": false
+    },
+    {
+      "comment": "Compact and lightweight. Ideal for short approaches.",
+      "productId": "Metolius Session Crash Pad",
+      "userId": "thomas@nodehill.com",
+      "commentCreated": false
+    },
+    {
+      "comment": "Great shoes for technical climbs. Precise and comfortable.",
+      "productId": "Five Ten Anasazi Pro Climbing Shoes",
+      "userId": "thomas@nodehill.com",
+      "commentCreated": false
+    },
+    {
+      "comment": "Comfortable harness with good support. Great for long climbs.",
+      "productId": "Petzl Sama Climbing Harness",
+      "userId": "visit@visitor.com",
+      "commentCreated": false
+    },
+    {
+      "comment": "Love the eco-friendly aspect of this rope. Performs well too!",
+      "productId": "Edelrid Boa Eco Climbing Rope",
+      "userId": "visit@visitor.com",
+      "commentCreated": false
+    }
+  ]
+}
